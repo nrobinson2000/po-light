@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+
+PATH="$PATH:/home/nrobinson/.particle/toolchains/gcc-arm/5.3.1/bin"
+
+PARTICLE_CLI_PATH="/usr/bin/particle"
+
+#DEVICE_OS_PATH="/home/nrobinson/.particle/toolchains/deviceOS/0.7.0/firmware-0.7.0"
+
+DEVICE_OS_PATH="/home/nrobinson/.po-util/src/particle/firmware"
+
+APPDIR="/home/nrobinson/github/hello"
+
+APPNAME="$(basename $APPDIR)"
+
+PLATFORM="photon"
+
+echo "
+Compiling Particle Firmware with Lightweight po-util...
+"
+
+printSizes()
+{
+  if [[ "$DEVICE_TYPE" == "core" ]]; then
+    FLASHTOTAL="110592"
+    RAMTOTAL="20480"
+  else
+    FLASHTOTAL="125000"
+    RAMTOTAL="60000"
+  fi
+
+  FLASH="$(( $1 + $2 ))"
+  FLASHPERCENT=$(bc -l <<< "scale = 4; $FLASH / $FLASHTOTAL * 100")
+
+  RAM="$(( $3 + $2 ))"
+  RAMPERCENT=$(bc -l <<< "scale = 4; $RAM / $RAMTOTAL * 100")
+  echo
+
+  if [[ -t 1 ]]; then
+    echo "$(tput setaf 6)$(tput bold)Flash Used:$(tput sgr0) $FLASH / $FLASHTOTAL    ${FLASHPERCENT%??} %"
+    echo "$(tput setaf 6)$(tput bold)RAM Used:  $(tput sgr0) $RAM / $RAMTOTAL     ${RAMPERCENT%??} %"
+  else
+    echo "Flash Used: $FLASH / $FLASHTOTAL    ${FLASHPERCENT%??} %"
+    echo "RAM Used:   $RAM / $RAMTOTAL     ${RAMPERCENT%??} %"
+  fi
+}
+
+run_build()
+{
+  make -s compile-user PARTICLE_CLI_PATH="$PARTICLE_CLI_PATH" DEVICE_OS_PATH="$DEVICE_OS_PATH" APPDIR="$APPDIR" PLATFORM="$PLATFORM" || return
+  SIZES="$(arm-none-eabi-size $APPDIR/target/$APPNAME.elf | tail -1)"
+  printSizes $SIZES
+}
+
+run_build
+
+# Platforms:
+
+
+
+
+
+
+
+
+
+
+#
