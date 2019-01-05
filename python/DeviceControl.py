@@ -113,13 +113,13 @@ class DeviceControl:
             raise Exception("Could not open that serial port!")
 
         else:
-            if system() == "Linux":
-                try:
-                    ser = serial.Serial(self.portName, self.neutralBaudRate)
-                    ser.close()
+            try:
+                ser = serial.Serial(self.portName, self.neutralBaudRate)
+                ser.close()
 
-                except serial.serialutil.SerialException:
-                    raise Exception("Invalid Serial Port!")
+            except serial.serialutil.SerialException:
+                #raise Exception("Invalid Serial Port!")
+                pass
 
     def closeDFU(self):
         try:
