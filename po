@@ -4,15 +4,17 @@ PATH="$PATH:/home/nrobinson/.particle/toolchains/gcc-arm/5.3.1/bin"
 
 PARTICLE_CLI_PATH="/usr/bin/particle"
 
-#DEVICE_OS_PATH="/home/nrobinson/.particle/toolchains/deviceOS/0.7.0/firmware-0.7.0"
+# DEVICE_OS_PATH="/home/nrobinson/.particle/toolchains/deviceOS/0.7.0/firmware-0.7.0"
 
-DEVICE_OS_PATH="/home/nrobinson/.po-util/src/particle/firmware"
+# DEVICE_OS_PATH="/home/nrobinson/.po-util/src/particle/firmware"
+
+DEVICE_OS_PATH="/home/nrobinson/github/mesh-firmware"
 
 APPDIR="/home/nrobinson/github/hello"
 
 APPNAME="$(basename $APPDIR)"
 
-PLATFORM="photon"
+PLATFORM="xenon"
 
 echo "
 Compiling Particle Firmware with Lightweight po-util...

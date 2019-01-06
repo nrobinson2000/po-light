@@ -46,6 +46,8 @@ class DeviceControl:
         if portName == "auto":
             if system() == "Darwin":
                 ports = serial.tools.list_ports.grep("/dev/cu.usbmodem")
+            elif system() == "Linux":
+                ports = serial.tools.list_ports.grep("/dev/ttyACM")
             connectedPorts = []
             for port in ports:
                 connectedPorts.append(port)
@@ -159,9 +161,11 @@ class DeviceControl:
         else:
             ser = serial.Serial(self.portName, self.neutralBaudRate)
             ser.write(b'L')
+            ser.close()
             time.sleep(10)
             ser = serial.Serial(self.portName, self.neutralBaudRate)
             ser.write(b'x')
+            ser.close()
 
         # try:
         #     ser = serial.Serial(self.portName, self.neutralBaudRate)
